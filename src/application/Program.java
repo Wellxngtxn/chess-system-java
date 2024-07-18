@@ -17,7 +17,7 @@ public class Program {
        ChessMath chessMath = new ChessMath();
        List<ChessPiece> captured = new ArrayList<>();
        
-       while(true){
+       while(!chessMath.getCheckMate()){
             try{
                 UI.clearScreen();
                 UI.printMathc(chessMath, captured);
@@ -47,5 +47,7 @@ public class Program {
                 leia.nextLine();
             }
         }
+        UI.clearScreen();
+        UI.printMathc(chessMath, captured);
     }
 }

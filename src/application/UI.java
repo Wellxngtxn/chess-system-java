@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 
 public class UI {
 
-    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
     public static final String ANSI_RED = "\u001B[31m";
@@ -38,32 +37,42 @@ public class UI {
         System.out.flush();
     }
 
-    public static ChessPosition readChessPosition(Scanner leia){
-        try{
+    public static ChessPosition readChessPosition(Scanner leia) {
+        try {
             String s = leia.nextLine();
             char column = s.charAt(0);
             int row = Integer.parseInt(s.substring(1));
             return new ChessPosition(column, row);
         }
-        catch(RuntimeException e){
+        catch (RuntimeException e) {
             throw new InputMismatchException("Error reading ChessPosition. Valid values are from a1 to h8.");
         }
     }
 
-    public static void printMathc(ChessMath chessMatch, List<ChessPiece> captured){
+    public static void printMathc(ChessMath chessMatch, List<ChessPiece> captured) {
+        
+        //Add pelo GPT
         if (captured == null) {
             captured = new ArrayList<>();
         }
+        // fim
+        
         printBoard(chessMatch.getPieces());
         System.out.println();
         printCapturedPieces(captured);
         System.out.println();
         System.out.println("Turn : " + chessMatch.getTurn());
-        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
-
-        if(chessMatch.getCheck()){
-            System.out.println("CHECK!");
+        if(!chessMatch.getCheckMate()){
+            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+            if (chessMatch.getCheck()) {
+                System.out.println("CHECK!");
+            }
         }
+        else{
+            System.out.println("CHECKMATE!");
+            System.out.println("Winner: " + chessMatch.getCurrentPlayer());
+        }
+        
     }
 
     public static void printBoard(ChessPiece[][] pieces) {
@@ -89,7 +98,7 @@ public class UI {
     }
 
     private static void printPiece(ChessPiece piece, boolean background) {
-        if(background){
+        if (background) {
             System.out.print(ANSI_BLUE_BACKGROUND);
         }
         if (piece == null) {
@@ -104,19 +113,17 @@ public class UI {
         System.out.print(" ");
     }
 
-    private static void printCapturedPieces(List<ChessPiece> captured){
+    private static void printCapturedPieces(List<ChessPiece> captured) {
+        
+        //Add pelo GPT
         if (captured == null) {
             System.out.println("No captured pieces.");
             return;
         }
-
-        List<ChessPiece> white = captured.stream()
-            .filter(piece -> piece != null && piece.getColor() == Color.WHITE)
-            .collect(Collectors.toList());
+        //fim
         
-        List<ChessPiece> black = captured.stream()
-            .filter(piece -> piece != null && piece.getColor() == Color.BLACK)
-            .collect(Collectors.toList());
+        List<ChessPiece> white = captured.stream().filter(piece -> piece != null && piece.getColor() == Color.WHITE).collect(Collectors.toList());
+        List<ChessPiece> black = captured.stream().filter(piece -> piece != null && piece.getColor() == Color.BLACK).collect(Collectors.toList());
 
         System.out.println("Captured Pieces: ");
         System.out.print("White: ");
