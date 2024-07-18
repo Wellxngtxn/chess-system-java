@@ -39,8 +39,12 @@ public class Program {
                 }
                 
                 if(chessMath.getPromoted() != null){
-                    System.out.println("Enter piece for promotion (B/N/R/Q)");
-                    String type = leia.nextLine();
+                    System.out.print("Enter piece for promotion (B/N/R/Q)");
+                    String type = leia.nextLine().toUpperCase();
+                    while(!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")){
+                        System.out.print("Invalid value! Enter piece for Promotion (B/N/R/Q): ");
+                        type = leia.nextLine().toUpperCase();
+                    }
                     chessMath.replacePromotedPiece(type);
                 }
             }
